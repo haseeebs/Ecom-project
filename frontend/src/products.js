@@ -55,7 +55,7 @@ const products = [
       brand: "GreenThumb",
       category: "Home & Garden",
       price: '$24.99',
-      countInStock: 30,
+      countInStock: 0,
       rating: 4.2,
       numReviews: 20
     },

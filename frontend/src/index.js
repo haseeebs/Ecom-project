@@ -10,6 +10,7 @@ import './assets/styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
 
 const appRouter = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const appRouter = createBrowserRouter([
       {
         path : '/',
         element : <HomeScreen />
+      },
+      {
+        path : '/product/:id',
+        element : <ProductScreen />
       }
     ]
   }
