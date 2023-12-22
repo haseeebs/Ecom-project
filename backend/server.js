@@ -2,6 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import connectDb from './config/db.js'
 import productRouter from './routes/productRoutes.js'
+import { notFound, errorHandler } from './utils/errorMiddleware.js';
 
 // Connect to the database
 connectDb();
@@ -14,6 +15,9 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/products', productRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
