@@ -4,6 +4,8 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import store from './store.js'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
@@ -14,15 +16,15 @@ import ProductScreen from './screens/ProductScreen';
 
 const appRouter = createBrowserRouter([
   {
-    path : '/' , element : <App />,
-    children : [
+    path: '/', element: <App />,
+    children: [
       {
-        path : '/',
-        element : <HomeScreen />
+        path: '/',
+        element: <HomeScreen />
       },
       {
-        path : '/product/:id',
-        element : <ProductScreen />
+        path: '/product/:id',
+        element: <ProductScreen />
       }
     ]
   }
@@ -31,7 +33,9 @@ const appRouter = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={appRouter}/>
+    <Provider store={store}>
+      <RouterProvider router={appRouter} />
+    </Provider>
   </React.StrictMode>
 );
 
