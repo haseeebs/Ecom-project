@@ -1,7 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import Rating from '../components/Rating';
+import Loader from '../components/Loader';
 import { useGetProductDetailsQuery } from '../slices/productsApiSlice';
+import Message from '../components/Message';
 
 const ProductScreen = () => {
   const { id } = useParams();
@@ -13,9 +15,9 @@ const ProductScreen = () => {
         Go Back
       </Link>
 
-      {isLoading && <h2>Loading...</h2>}
+      {isLoading && <Loader />}
 
-      {error && <div>{error?.data?.message || error.error}</div>}
+      {error && <Message variant='danger'>{error?.data?.message || error.error}</Message>}
 
       {product && (
         <>
