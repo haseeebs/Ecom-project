@@ -24,7 +24,7 @@ const ProductScreen = () => {
   // Event handler for adding to cart
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity }));
-    // navigate('/cart');
+    navigate('/cart');
   }
 
   return (

@@ -8,7 +8,6 @@ import Logo from "../assets/logo.png"
 const Header = () => {
 
     const cartItems = useSelector((store) => store.cart.cartItems)
-    console.log(cartItems);
 
     return (
         <header>

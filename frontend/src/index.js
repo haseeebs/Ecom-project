@@ -10,6 +10,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen.jsx';
 
 const appRouter = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/product/:id',
         element: <ProductScreen />
+      },
+      {
+        path: '/cart',
+        element: <CartScreen />
       }
     ]
   }
