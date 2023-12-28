@@ -1,11 +1,26 @@
 import User from "../models/userModel.js";
 import wrapAsync from "../utils/wrapAsync.js";
+import bcrypt from 'bcrypt';
 
 // Auth user & Get token
 // Route: POST /api/users/login
 // Access Public
 export const authUser = wrapAsync(async (req, res) => {
-    res.send('Auth user...')
+    const { email, password } = req.body;
+    const user = await User.findOne({ email })
+    const passwordMatch = await bcrypt.compare(password , user.password);
+
+    if(user && passwordMatch){
+        res.json({
+            _id : user._id,
+            username : user.username,
+            email : user.email,
+            isAdmin : user.isAdmin
+        })
+    }else {
+        res.status(404)
+        throw new Error('Invalid Email or Password')
+    }
 });
 
 // Register User

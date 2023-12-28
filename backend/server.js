@@ -11,6 +11,11 @@ connectDb();
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Parse URL-encoded data from incoming requests (for HTML forms)
+app.use(express.urlencoded({ extended: true }))
+// Parse parse JSON data from incoming requests
+app.use(express.json())
+
 app.get('/', (req, res) => {
     res.send("Hii there Assalamu-Alaikum warahmatullahi wa-barakatuhu...");
 })
