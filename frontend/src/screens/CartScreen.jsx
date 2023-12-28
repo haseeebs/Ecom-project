@@ -9,6 +9,7 @@ import Message from '../components/Message'
 
 const CartScreen = () => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { cartItems } = useSelector((store) => store.cart)
 
@@ -18,6 +19,10 @@ const CartScreen = () => {
 
     const handleRemoveFromCart = (id) => {
         dispatch(removeFromCart(id));
+    }
+
+    const handleCheckOut = () => {
+        navigate('/login?redirect=shipping')
     }
 
     return (
@@ -73,7 +78,7 @@ const CartScreen = () => {
                             ${cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            <Button type='button' className='btn-block' disabled={cartItems.length === 0}>Proceed to checkout</Button>
+                            <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={handleCheckOut}>Proceed to checkout</Button>
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>

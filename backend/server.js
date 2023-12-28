@@ -2,6 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import connectDb from './config/db.js'
 import productRouter from './routes/productRoutes.js'
+import userRouter from './routes/userRouters.js'
 import { notFound, errorHandler } from './utils/errorMiddleware.js';
 
 // Connect to the database
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -9,7 +9,7 @@ import users from './data/users.js';
 import products from './data/products.js';
 
 // Importing Mongoose models for User, Product, and Order
-import User from './models/usersModel.js';
+import User from './models/userModel.js';
 import Product from './models/productModel.js';
 import Order from './models/orderModel.js';
 
