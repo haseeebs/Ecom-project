@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaTrash } from 'react-icons/fa'
-import { addToCart } from '../slices/cartSlice'
+import { addToCart, removeFromCart } from '../slices/cartSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Form, Card, ListGroup, Image, Button } from 'react-bootstrap'
@@ -11,8 +11,13 @@ const CartScreen = () => {
 
     const dispatch = useDispatch();
     const { cartItems } = useSelector((store) => store.cart)
-    const handleAddToCart = (product , quantity) => {
-        dispatch(addToCart({...product , quantity}))
+
+    const handleAddToCart = (product, quantity) => {
+        dispatch(addToCart({ ...product, quantity }))
+    }
+
+    const handleRemoveFromCart = (id) => {
+        dispatch(removeFromCart(id));
     }
 
     return (
@@ -40,7 +45,7 @@ const CartScreen = () => {
                                     </Col>
 
                                     <Col md={2} className="d-flex align-items-center">
-                                        <Form.Select value={item.quantity} onChange={ (e) => handleAddToCart(item , Number(e.target.value))}>
+                                        <Form.Select value={item.quantity} onChange={(e) => handleAddToCart(item, Number(e.target.value))}>
                                             {[...Array(item.countInStock).keys()].map(count => (
                                                 <option key={count + 1} value={count + 1}>{count + 1}</option>
                                             ))}
@@ -48,7 +53,7 @@ const CartScreen = () => {
                                     </Col>
 
                                     <Col md={2} className="d-flex align-items-center">
-                                        <Button type='button' variant='light'> <FaTrash /> </Button>
+                                        <Button type='button' variant='light' onClick={(e) => handleRemoveFromCart(item._id)}> <FaTrash /> </Button>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
@@ -62,10 +67,10 @@ const CartScreen = () => {
                 <Card>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Subtotal {cartItems.reduce( (acc , item) => acc + item.quantity , 0)} items</h2>
+                            <h2>Subtotal {cartItems.reduce((acc, item) => acc + item.quantity, 0)} items</h2>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            ${cartItems.reduce( (acc , item) => acc + item.quantity * item.price , 0).toFixed(2)}
+                            ${cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)}
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Button type='button' className='btn-block' disabled={cartItems.length === 0}>Proceed to checkout</Button>
