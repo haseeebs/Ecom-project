@@ -1,15 +1,19 @@
 import express from 'express'
 import 'dotenv/config'
+import cookieParser from 'cookie-parser'
 import connectDb from './config/db.js'
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRouters.js'
-import { notFound, errorHandler } from './utils/errorMiddleware.js';
+import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 // Connect to the database
 connectDb();
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// Parse cookies from incoming requests
+app.use(cookieParser());
 
 // Parse URL-encoded data from incoming requests (for HTML forms)
 app.use(express.urlencoded({ extended: true }))
