@@ -9,11 +9,16 @@ export const authUser = wrapAsync(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email })
 
+    if (!user) {
+        res.status(404);
+        throw new Error('User not found. Please check your email or register a new account.');
+    }
+
     if (user && await user.matchPassword(password)) {
 
         generateToken(res, user._id);
 
-        res.json({
+        res.status(200).json({
             _id: user._id,
             username: user.username,
             email: user.email,
@@ -21,7 +26,12 @@ export const authUser = wrapAsync(async (req, res) => {
         })
     } else {
         res.status(401)
-        throw new Error('Invalid Email or Password')
+
+        if (user) {
+            throw new Error('Incorrect password')
+        } else {
+            throw new Error('Invalid Email or Password')
+        }
     }
 });
 
@@ -73,14 +83,49 @@ export const logoutUser = wrapAsync(async (req, res) => {
 // Route: GET /api/users/profile
 // Access Private
 export const getUserProfile = wrapAsync(async (req, res) => {
-    res.send('Get User Profile...')
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        res.status(200).json({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            isAdmin: user.isAdmin
+        })
+
+    } else {
+        res.status(404)
+        throw new Error('User not found...')
+    }
 });
 
 // Update User Profile
 // Route: PUT /api/users/profile
 // Access Private
 export const updateUserProfile = wrapAsync(async (req, res) => {
-    res.send('Update User Profile...')
+    const user = await User.findById(req.user._id);
+
+    const { username, email, password } = req.body;
+
+    if (user) {
+        user.username = username || user.username
+        user.email = email || user.email
+        if (password) {
+            user.password = password;
+        }
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            _id: updatedUser._id,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin
+        })
+    } else {
+        res.status(404)
+        throw new Error('User Not Found...')
+    }
 });
 
 // Get Users
