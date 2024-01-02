@@ -3,7 +3,7 @@ import { updateState } from "../utils/cartUtils";
 
 // Retrieve the cart from localStorage or use an empty cart if not present
 const cartFromLocalStorage = localStorage.getItem('cart');
-const initialState = cartFromLocalStorage ? JSON.parse(cartFromLocalStorage) : { cartItems: [] }
+const initialState = cartFromLocalStorage ? JSON.parse(cartFromLocalStorage) : { cartItems: [], shippingAddress: {}, paymentMethod: 'Paypal' }
 
 // Define the cart slice using createSlice from Redux Toolkit
 const cartSlice = createSlice({
@@ -30,10 +30,14 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(item => item._id !== action.payload);
 
       return updateState(state)
+    },
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+      return updateState(state);
     }
   }
 });
 
 // Export the action creator and the reducer
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAddress } = cartSlice.actions;
 export default cartSlice.reducer;
