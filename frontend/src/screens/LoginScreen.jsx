@@ -17,7 +17,7 @@ const LoginScreen = () => {
 
     const [login, { isLoading }] = useLoginMutation();
 
-    const { userInfo } = useSelector(store => store.auth)
+    const { userInfo } = useSelector(store => store.auth);
 
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
@@ -31,7 +31,7 @@ const LoginScreen = () => {
     }, [userInfo, redirect, navigate])
 
 
-    const submitHandler = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
@@ -47,34 +47,23 @@ const LoginScreen = () => {
         <FormContainer>
             <h1>Sign In</h1>
 
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group controlId='email' className='my-3'>
                     <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder='Enter Email'
-                        value={email}
-                        onChange={event => setEmail(event.target.value)}
-                    ></Form.Control>
+                    <Form.Control type='email' placeholder='Enter Email' value={email} onChange={event => setEmail(event.target.value)} ></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='password' className='mt-2'>
                     <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type='password'
-                        placeholder='Enter Password'
-                        value={password}
-                        onChange={event => setPassword(event.target.value)}
-                    ></Form.Control>
+                    <Form.Control type='password' placeholder='Enter Password' value={password} onChange={event => setPassword(event.target.value)} ></Form.Control>
                 </Form.Group>
 
-                <Button type='submit' variant='primary' className='mt-3' disabled={isLoading}>
-                    Sign In
-                </Button>
+                <Button type='submit' variant='primary' className='mt-3' disabled={isLoading}>Sign In</Button>
 
                 {isLoading && <Loader />}
 
             </Form>
+
             <Row className='py-3'>
                 <Col>
                     New Customer? <Link to={redirect ? `/register?redirect${redirect}` : `/register`}>Register</Link>
