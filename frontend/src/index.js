@@ -15,6 +15,7 @@ import LoginScreen from './screens/LoginScreen.jsx';
 import RegisterScreen from './screens/RegisterScreen.jsx';
 import ShippingScreen from './screens/ShippingScreen.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import PaymentScreen from './screens/PaymentScreen.jsx';
 
 const appRouter = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const appRouter = createBrowserRouter([
           {
             path: '/shipping',
             element: <ShippingScreen />
+          },
+          {
+            path: '/payment',
+            element: <PaymentScreen />
           },
         ]
       }
