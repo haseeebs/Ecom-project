@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import connectDb from './config/db.js'
 import productRouter from './routes/productRoutes.js'
 import userRouter from './routes/userRouters.js'
+import orderRoutes from './routes/orderRoutes.js'
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
 // Connect to the database
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRoutes)
 
 app.use(notFound);
 app.use(errorHandler);
