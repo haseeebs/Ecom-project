@@ -93,7 +93,6 @@ const ProductScreen = () => {
         </>
       )}
 
-      {!product && !isLoading && <p>Product not found</p>}
     </>
   );
 };

@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 
 const RegisterScreen = () => {
 
-    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -40,7 +40,7 @@ const RegisterScreen = () => {
             return;
         } else {
             try {
-                const res = await register({ username, email, password }).unwrap();
+                const res = await register({ name, email, password }).unwrap();
                 dispatch(setCredentials({ ...res }));
                 navigate('/')
             } catch (error) {
@@ -54,9 +54,9 @@ const RegisterScreen = () => {
             <h1>Sign Up</h1>
 
             <Form onSubmit={handleSubmit}>
-                <Form.Group controlId='username' className='my-3'>
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control type='text' placeholder='Username' value={username} onChange={event => setUsername(event.target.value)}></Form.Control>
+                <Form.Group controlId='name' className='my-3'>
+                    <Form.Label>name</Form.Label>
+                    <Form.Control type='text' placeholder='name' value={name} onChange={event => setName(event.target.value)}></Form.Control>
                 </Form.Group>
 
                 <Form.Group controlId='email' className='my-3'>

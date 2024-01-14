@@ -17,10 +17,10 @@ router.route('/').get(protect, admin, getAllOrders).post(protect, createOrder);
 // Get orders for the logged-in user
 router.route('/mine').get(protect, getMyOrders);
 
-// Get a specific order by ID (admin only)
-router.route('/:id').get(protect, admin, getOrderById);
+// Get a specific order by ID
+router.route('/:id').get(protect, getOrderById);
 
-// Update order status to "Paid" (admin only)
+// Update order status to "Paid"
 router.route('/:id/pay').put(protect, updateOrderToPaid);
 
 // Update order status to "Delivered" (admin only)

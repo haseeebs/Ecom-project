@@ -18,6 +18,7 @@ const getProductById = wrapAsync(async (req, res) => {
         return res.json(product);
     }
 
+    res.status(404)
     throw new Error("Resource not found");
 });
 

@@ -20,7 +20,7 @@ export const authUser = wrapAsync(async (req, res) => {
 
         res.status(200).json({
             _id: user._id,
-            username: user.username,
+            name: user.name,
             email: user.email,
             isAdmin: user.isAdmin
         })
@@ -39,7 +39,7 @@ export const authUser = wrapAsync(async (req, res) => {
 // Route: POST /api/users
 // Access Public
 export const registerUser = wrapAsync(async (req, res) => {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
     const existUser = await User.findOne({ email })
 
     if (existUser) {
@@ -48,7 +48,7 @@ export const registerUser = wrapAsync(async (req, res) => {
     }
 
     const user = await User.create({
-        username,
+        name,
         email,
         password
     })
@@ -57,7 +57,7 @@ export const registerUser = wrapAsync(async (req, res) => {
         generateToken(res, user._id);
         res.status(201).json({
             _id: user._id,
-            username: user.username,
+            name: user.name,
             email: user.email,
             isAdmin: user.isAdmin
         })
@@ -88,7 +88,7 @@ export const getUserProfile = wrapAsync(async (req, res) => {
     if (user) {
         res.status(200).json({
             _id: user._id,
-            username: user.username,
+            name: user.name,
             email: user.email,
             isAdmin: user.isAdmin
         })
@@ -105,10 +105,10 @@ export const getUserProfile = wrapAsync(async (req, res) => {
 export const updateUserProfile = wrapAsync(async (req, res) => {
     const user = await User.findById(req.user._id);
 
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     if (user) {
-        user.username = username || user.username
+        user.name = name || user.name
         user.email = email || user.email
         if (password) {
             user.password = password;
@@ -118,7 +118,7 @@ export const updateUserProfile = wrapAsync(async (req, res) => {
 
         res.status(200).json({
             _id: updatedUser._id,
-            username: updatedUser.username,
+            name: updatedUser.name,
             email: updatedUser.email,
             isAdmin: updatedUser.isAdmin
         })
