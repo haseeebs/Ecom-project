@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Form, Card, ListGroup, Image, Button } from 'react-bootstrap'
 import Message from '../components/Message'
+import { toast } from 'react-toastify'
 
 
 const CartScreen = () => {
@@ -22,7 +23,12 @@ const CartScreen = () => {
     }
 
     const handleCheckOut = () => {
-        navigate('/login?redirect=shipping')
+        const userInfo = localStorage.getItem('userInfo');
+        if(!userInfo){
+            toast.error("you're not logged in")
+        }else{
+            navigate('/login?redirect=shipping')
+        }
     }
 
     return (
