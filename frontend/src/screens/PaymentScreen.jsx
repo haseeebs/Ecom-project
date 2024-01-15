@@ -5,6 +5,7 @@ import CheckoutSteps from "../components/CheckoutSteps"
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom"
 import { savePaymentMethod } from "../slices/cartSlice"
+import { toast } from "react-toastify"
 
 const PaymentScreen = () => {
     const [paymentMethod, setPaymentMethod] = useState('Paypal');
@@ -13,7 +14,7 @@ const PaymentScreen = () => {
     const navigate = useNavigate();
 
     const cart = useSelector(store => store.cart);
-    const {shippingAddress} = cart;
+    const { shippingAddress } = cart;
 
     useEffect(() => {
         if (!shippingAddress) {
@@ -22,10 +23,18 @@ const PaymentScreen = () => {
     }, [shippingAddress, navigate]);
 
     const handleSubmit = (event) => {
-        event.preventDefault()
-        dispatch(savePaymentMethod(paymentMethod))
-        navigate('/placeorder')
-    }
+        event.preventDefault();
+
+        const userInfo = localStorage.getItem('userInfo');
+
+        if (userInfo) {
+            dispatch(savePaymentMethod(paymentMethod));
+            navigate('/placeorder');
+        } else {
+            toast.error("You're not logged in");
+            window.location.reload();
+        }
+    };
 
     return (
         <FormContainer>
