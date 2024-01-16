@@ -93,5 +93,6 @@ export const updateOrderToDelivered = wrapAsync(async (req, res) => {
 // Route: GET /api/orders
 // Access Private/Admin
 export const getAllOrders = wrapAsync(async (req, res) => {
-    res.send("Get all orders");
+    const orders = await Order.find({}).populate('user', 'id name');
+    res.status(200).json(orders);
 })

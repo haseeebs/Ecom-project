@@ -189,6 +189,13 @@ const OrderScreen = () => {
                                             <div>
                                                 <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
                                             </div>
+                                            <p>
+                                                To perform a fake payment, use the following credentials:
+                                                <br />
+                                                <strong>Email: </strong>sb-u247bx29285151@personal.example.com
+                                                <br />
+                                                <strong>Password: </strong>ecomPayment
+                                            </p>
                                         </div>
 
 
