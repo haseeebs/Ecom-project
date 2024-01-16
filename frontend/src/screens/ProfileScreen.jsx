@@ -35,18 +35,21 @@ const ProfileScreen = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         if (password !== confirmPassword) {
-            toast.error('Password do not match');
+            toast.error('Passwords do not match');
         } else {
             try {
                 const res = await updateProfile({ name, email, password }).unwrap();
                 dispatch(setCredentials(res));
-                toast.success('Profile updated successfully')
+                toast.success('Profile updated successfully');
+                setPassword('');
+                setConfirmPassword('');
             } catch (error) {
-                toast.error(error?.data?.message || error.error)
+                toast.error(error?.data?.message || error.error);
             }
         }
-    }
+    };
 
     return (
         <Row>

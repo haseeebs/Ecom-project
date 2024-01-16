@@ -47,6 +47,7 @@ const Header = () => {
                                     {cartItems.length > 0 && <Badge pill bg='success' style={{ marginLeft: '5px' }}>{cartItems.reduce((acc, value) => acc + value.quantity, 0)}</Badge>}
                                 </Nav.Link>
                             </LinkContainer>
+
                             {userInfo ? (
                                 <NavDropdown title={userInfo.name} id='name'>
                                     <LinkContainer to='/profile'>
@@ -58,6 +59,22 @@ const Header = () => {
                                 (<LinkContainer to="/login">
                                     <Nav.Link><FaUser /> Sign In</Nav.Link>
                                 </LinkContainer>)}
+
+                            {userInfo && userInfo.isAdmin && (
+                                <NavDropdown title='Admin' id='adminMenu'>
+                                    <LinkContainer to='/admin/productlist'>
+                                        <NavDropdown.Item>Products</NavDropdown.Item>
+                                    </LinkContainer>
+
+                                    <LinkContainer to='/admin/userlist'>
+                                        <NavDropdown.Item>Users</NavDropdown.Item>
+                                    </LinkContainer>
+
+                                    <LinkContainer to='/admin/orderlist'>
+                                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavDropdown>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
