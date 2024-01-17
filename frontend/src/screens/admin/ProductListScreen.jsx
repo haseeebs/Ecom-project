@@ -1,6 +1,6 @@
 import { LinkContainer } from 'react-router-bootstrap';
 import { Button, Col, Row, Table } from 'react-bootstrap';
-import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useCreateProductMutation, useGetProductsQuery } from "../../slices/productsApiSlice";
 import { toast } from 'react-toastify';
 import Message from '../../components/Message';
@@ -16,7 +16,7 @@ const ProductListScreen = () => {
         if (window.confirm('Are you sure you want to create a new product?')) {
             try {
                 const result = await createProduct();
-                console.log(result);
+                
                 refetch();
             } catch (error) {
                 toast.error(error?.data?.message || error.error)
@@ -65,7 +65,7 @@ const ProductListScreen = () => {
                                 <tr key={product._id}>
                                     <td>{product._id}</td>
                                     <td>{product.name}</td>
-                                    <td>{product.price}</td>
+                                    <td>${product.price}</td>
                                     <td>{product.category}</td>
                                     <td>{product.brand}</td>
                                     <td>

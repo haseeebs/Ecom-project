@@ -24,6 +24,7 @@ import ProfileScreen from './screens/ProfileScreen.jsx';
 import ProductListScreen from './screens/admin/ProductListScreen.jsx';
 import UserListScreen from './screens/admin/UserListScreen.jsx';
 import OrderListScreen from './screens/admin/OrderListScreen.jsx';
+import ProductEditScreen from './screens/admin/ProductEditScreen.jsx';
 
 const appRouter = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ const appRouter = createBrowserRouter([
           {
             path: '/admin/orderlist',
             element: <OrderListScreen />
+          },
+          {
+            path: '/admin/product/:id/edit',
+            element: <ProductEditScreen />
           },
         ]
       }

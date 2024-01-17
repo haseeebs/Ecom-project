@@ -39,6 +39,29 @@ const createProduct = wrapAsync(async (req, res) => {
 
     const createProduct = await product.save();
     res.status(201).json(createProduct);
-})
+});
 
-export { getProducts, getProductById, createProduct };
+// Update a product
+// Route: PUT /api/products/:id
+const updateProduct = wrapAsync(async (req, res) => {
+    const { name, image, description, brand, category, price, countInStock } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+        res.status(404);
+        throw new Error('Resource not found');
+    }
+
+    product.name = name;
+    product.image = image;
+    product.description = description;
+    product.brand = brand;
+    product.category = category;
+    product.price = price;
+    product.countInStock = countInStock;
+
+    const updatedProduct = await product.save();
+    res.status(200).json(updatedProduct);
+});
+
+export { getProducts, getProductById, createProduct, updateProduct };
