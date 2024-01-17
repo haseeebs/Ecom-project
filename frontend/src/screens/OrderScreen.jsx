@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useGetOrderDetailsQuery, useGetPayPalClientIdQuery, usePayOrderMutation, useDeliverOrderMutation } from "../slices/orderApiSlice";
-import { Row, Col, ListGroup, Image, Form, Card, Button } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
@@ -46,11 +46,11 @@ const OrderScreen = () => {
 
     }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
 
-    const onApproveTest = async () => {
-        await payOrder({ orderId, details: { payer: {} } });
-        refetch();
-        toast.success('Payment Successful');
-    }
+    // const onApproveTest = async () => {
+    //     await payOrder({ orderId, details: { payer: {} } });
+    //     refetch();
+    //     toast.success('Payment Successful');
+    // }
 
     const onApprove = (data, actions) => {
         return actions.order.capture().then(async function (details) {
