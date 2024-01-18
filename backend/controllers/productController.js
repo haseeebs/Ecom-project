@@ -64,4 +64,20 @@ const updateProduct = wrapAsync(async (req, res) => {
     res.status(200).json(updatedProduct);
 });
 
-export { getProducts, getProductById, createProduct, updateProduct };
+// Delete a product
+// Route: DELETE /api/products/:id
+const deleteProduct = wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    
+    const product = await Product.findById(id);
+
+    if (!product) {
+        res.status(404);
+        throw new Error('Resource not found');
+    }
+
+    await Product.deleteOne({ _id: product._id });
+    return res.status(200).json({ message: 'Product deleted' });
+});
+
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct };
