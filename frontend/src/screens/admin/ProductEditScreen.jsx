@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from 'react-toastify'
 import { Form, Button } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useGetProductDetailsQuery, useUpdateProductMutation } from "../../slices/productsApiSlice";
+import { useGetProductDetailsQuery, useUpdateProductMutation, useUploadProductImageMutation } from "../../slices/productsApiSlice";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import FormContainer from "../../components/FormContainer";
@@ -16,6 +16,7 @@ const ProductEditScreen = () => {
 
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
+  const [uploadFile, setUploadFile] = useState(null);
   const [description, setDescription] = useState('');
   const [brand, setBrand] = useState('');
   const [category, setCategory] = useState('');
@@ -23,6 +24,7 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock] = useState(0);
 
   const [updateProduct, { isLoading: loadingUpdate }] = useUpdateProductMutation();
+  const [uploadProductImage] = useUploadProductImageMutation();
 
   useEffect(() => {
     if (product) {
@@ -62,6 +64,37 @@ const ProductEditScreen = () => {
     }
   }
 
+  const handleUploadImage = async (event) => {
+
+    const file = event.target.files[0];
+
+    if(!event.target.files || event.target.files.length === 0){
+      return;
+    }
+
+    if (!/jpeg|png|jpg/.test(file.type)) {
+      toast.error('Invalid file type. Please upload jpeg, png, or jpg image.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file)
+
+    try {
+      const result = await uploadProductImage(formData).unwrap();
+      toast.success(result.message);
+
+
+      if (result.image) {
+        setUploadFile(result.image);
+        setImage(result.image);
+      }
+
+    } catch (error) {
+      toast.error(error?.data?.message || error.error)
+    }
+  }
+
   return (
     <>
       <Link to={'/admin/productlist'} className="btn btn-light my-3">Go back</Link>
@@ -85,12 +118,21 @@ const ProductEditScreen = () => {
 
             <Form.Group controlId="image" className="my-2">
               <Form.Label>Image</Form.Label>
+
               <Form.Control
                 type="text"
                 placeholder="Enter image URL"
                 value={image}
                 onChange={event => setImage(event.target.value)}
+                disabled={uploadFile !== null}
               ></Form.Control>
+
+              <Form.Control
+                type="file"
+                label="Choose Image"
+                onChange={handleUploadImage}
+              ></Form.Control>
+
             </Form.Group>
 
             <Form.Group controlId="description" className="my-2">

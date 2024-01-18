@@ -201,17 +201,14 @@ const OrderScreen = () => {
                                             <div>
                                                 <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError}></PayPalButtons>
                                             </div>
-                                            {PayPalButtons ? (
-                                                <p>
+                                            <p>If you don't see the payment options , you can try refreshing the page.</p>
+                                            <p>
                                                     To perform a fake payment, use the following credentials:
                                                     <br />
                                                     <strong>Email: </strong>sb-u247bx29285151@personal.example.com
                                                     <br />
                                                     <strong>Password: </strong>ecomPayment
                                                 </p>
-                                            ) : (
-                                                <p>Refresh the page to see payments options</p>
-                                            )}
                                         </div>
                                     )}
                                 </ListGroup.Item>
