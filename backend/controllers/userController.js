@@ -132,21 +132,42 @@ export const updateUserProfile = wrapAsync(async (req, res) => {
 // Route: GET api/users
 // Access Private/Admin
 export const getUsers = wrapAsync(async (req, res) => {
-    res.send('Get users...')
+    const users = await User.find({});
+    res.status(200).json(users);
 });
 
 // Get Users
 // Route: GET api/users/:id
 // Access Private/Admin
 export const getUserById = wrapAsync(async (req, res) => {
-    res.send('Get user by id...')
+    const user = await User.findById({ _id: req.params.id }).select('-password');
+
+    if (!user) {
+        res.status(404);
+        throw new Error('User not found')
+    }
+
+    res.status(200).json(user);
 });
 
 // Delete User
 // Route: DELETE api/users/:id
 // Access Private/Admin
 export const deleteUser = wrapAsync(async (req, res) => {
-    res.send('Delete user...')
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+        res.status(404);
+        throw new Error('User not found');
+    }
+
+    if (user.isAdmin) {
+        res.status(400);
+        throw new Error('Cannot delete Admin user')
+    }
+
+    await User.findByIdAndDelete(user._id);
+    res.status(200).json({ message: 'User deleted successfully' })
 });
 
 
@@ -154,5 +175,25 @@ export const deleteUser = wrapAsync(async (req, res) => {
 // Route: PUT api/users/:id
 // Access Private/Admin
 export const updateUser = wrapAsync(async (req, res) => {
-    res.send('Update user...')
+    const user = await User.findById(req.params._id);
+
+    if(!user){
+        res.status(404);
+        throw new Error('User not found');
+    }
+
+    const {name , email , isAdmin} = req.body;
+
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.isAdmin = Boolean(isAdmin) || user.isAdmin;
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin
+    });
 });
