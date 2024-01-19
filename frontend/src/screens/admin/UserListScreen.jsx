@@ -1,21 +1,33 @@
-import { useGetUsersQuery } from '../../slices/usersApiSlice';
+import { useDeleteUserMutation, useGetUsersQuery } from '../../slices/usersApiSlice';
 import { FaTimes, FaCheck, FaTrash, FaEdit } from 'react-icons/fa';
 import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { toast } from 'react-toastify';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
 
 const UserListScreen = () => {
 
-    const { data: users, isLoading, error } = useGetUsersQuery();
+    const { data: users, isLoading, refetch, error } = useGetUsersQuery();
 
-    const handleDeleteUser = (id) => {
-        console.log('Deleting user ', id);
+    const [deleteUser, { isLoading: loadingDelete }] = useDeleteUserMutation();
+
+    const handleDeleteUser = async (id) => {
+        if (window.confirm('Are you sure you want to delete this user?')) {
+            try {
+                await deleteUser(id);
+                toast.success('User deleted successfully');
+                refetch();
+            } catch (error) {
+                toast.error(error?.data?.message || error.error);
+            }
+        }
     }
 
     return (
         <>
             <h1>Users</h1>
+            {loadingDelete && <Loader />}
             {isLoading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <Table striped hover responsive className='table-sm'>
                     <thead>
