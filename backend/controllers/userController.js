@@ -175,18 +175,17 @@ export const deleteUser = wrapAsync(async (req, res) => {
 // Route: PUT api/users/:id
 // Access Private/Admin
 export const updateUser = wrapAsync(async (req, res) => {
-    const user = await User.findById(req.params._id);
+    const user = await User.findById(req.params.id);
 
-    if(!user){
+    if (!user) {
         res.status(404);
         throw new Error('User not found');
     }
 
-    const {name , email , isAdmin} = req.body;
-
+    const { name, email, isAdmin } = req.body;
     user.name = name || user.name;
     user.email = email || user.email;
-    user.isAdmin = Boolean(isAdmin) || user.isAdmin;
+    user.isAdmin = isAdmin !== 'undefined' ? Boolean(isAdmin) : user.isAdmin;
 
     const updatedUser = await user.save();
 
