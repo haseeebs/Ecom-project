@@ -111,7 +111,7 @@ const createProductReview = wrapAsync(async (req, res) => {
 
     product.numReviews = product.reviews.length;
 
-    product.rating = product.reviews.reduce((total, review) => total + review.rating, 0) / product.reviews.length;
+    product.calculateRatings();
 
     await product.save();
 

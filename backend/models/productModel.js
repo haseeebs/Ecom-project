@@ -71,6 +71,11 @@ const productSchema = new mongoose.Schema({
     }
 }, {timestamps : true})
 
+productSchema.methods.calculateRatings = function () {
+    this.rating = this.reviews.reduce( (total , review) => total + review.rating  , 0) / this.reviews.length;
+    return this.rating;
+}
+
 const Product = mongoose.model("Product" , productSchema);
 
 export default Product;
