@@ -115,7 +115,7 @@ const createProductReview = wrapAsync(async (req, res) => {
 
     await product.save();
 
-    res.status('201').json({ message: 'Review added' })
+    res.status(201).json({ message: 'Review added' })
 });
 
 export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
