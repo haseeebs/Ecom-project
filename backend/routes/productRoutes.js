@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProducts, getProductById, createProduct, updateProduct, deleteProduct } from '../controllers/productController.js';
+import { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview } from '../controllers/productController.js';
 import { admin, protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -13,4 +13,6 @@ router.route('/:id')
     .put(protect, admin, updateProduct)
     .delete(protect, admin, deleteProduct);
 
+// Route to add a review for a specific product (Protected)
+router.route('/:id/reviews').post(protect , createProductReview);
 export default router;

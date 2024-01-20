@@ -80,4 +80,42 @@ const deleteProduct = wrapAsync(async (req, res) => {
     return res.status(200).json({ message: 'Product deleted' });
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct };
+// Create a new review
+// Route: POST /api/products/:id/reviews
+const createProductReview = wrapAsync(async (req, res) => {
+    const { _id: userId, name: userName } = req.user;
+    const { rating, comment } = req.body;
+
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+        res.status(404)
+        throw new Error('Resource not found');
+    }
+
+    const alreadyReviewed = product.reviews.find(review => review.user.toString() === userId.toString());
+
+    if (alreadyReviewed) {
+        res.status(404)
+        throw new Error('User has already reviewed this product')
+    }
+
+    const review = {
+        user: userId,
+        name: userName,
+        comment,
+        rating: Number(rating)
+    };
+
+    product.reviews.push(review);
+
+    product.numReviews = product.reviews.length;
+
+    product.rating = product.reviews.reduce((total, review) => total + review.rating, 0) / product.reviews.length;
+
+    await product.save();
+
+    res.status('201').json({ message: 'Review added' })
+});
+
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
