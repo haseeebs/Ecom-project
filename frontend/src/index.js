@@ -91,6 +91,10 @@ const appRouter = createBrowserRouter([
             element: <ProductListScreen />
           },
           {
+            path: '/admin/productlist/:pageNumber',
+            element: <ProductListScreen />
+          },
+          {
             path: '/admin/userlist',
             element: <UserListScreen />
           },

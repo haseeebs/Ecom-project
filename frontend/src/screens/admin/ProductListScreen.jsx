@@ -5,10 +5,13 @@ import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery
 import { toast } from 'react-toastify';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
+import { useParams } from 'react-router-dom';
+import Paginate from '../../components/Paginate';
 
 const ProductListScreen = () => {
+    const { pageNumber } = useParams();
 
-    const { data: products, isLoading, refetch, error } = useGetProductsQuery();
+    const { data, isLoading, refetch, error } = useGetProductsQuery({pageNumber});
 
     const [createProduct, { isLoading: loadingCreateProduct }] = useCreateProductMutation();
 
@@ -72,7 +75,7 @@ const ProductListScreen = () => {
                         </thead>
 
                         <tbody>
-                            {products.map(product => (
+                            {data.products.map(product => (
                                 <tr key={product._id}>
                                     <td>{product._id}</td>
                                     <td>{product.name}</td>
@@ -91,6 +94,7 @@ const ProductListScreen = () => {
                         </tbody>
 
                     </Table>
+                    <Paginate pageNumber={data.pageNumber} pages={data.pages} isAdmin={true}/>
                 </>
 
             )}

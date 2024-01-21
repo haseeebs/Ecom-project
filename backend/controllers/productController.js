@@ -9,7 +9,7 @@ const getProducts = wrapAsync(async (req, res) => {
     const count = await Product.countDocuments();
 
     const products = await Product.find({}).limit(pageSize).skip(pageSize * (pageNumber - 1));
-    res.json({ products, pageSize, pages: Math.ceil(count / pageSize) });
+    res.json({ products, pageNumber, pages: Math.ceil(count / pageSize) });
 });
 
 // Fetch a product by ID

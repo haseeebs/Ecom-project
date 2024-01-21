@@ -4,12 +4,13 @@ import { useGetProductsQuery } from '../slices/productsApiSlice.js'
 import Loader from '../components/Loader'
 import Message from '../components/Message.jsx'
 import { useParams } from 'react-router-dom'
+import Paginate from '../components/Paginate.jsx'
 
 const HomeScreen = () => {
     const { pageNumber } = useParams();
-
+    
     const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
-
+    
     if (isLoading) return <Loader />
 
     if (error) return <Message variant='danger'>Error occurred while fetching products {error?.data?.message || error.error}</Message>
@@ -24,6 +25,7 @@ const HomeScreen = () => {
                     </Col>
                 ))}
             </Row>
+            <Paginate pageNumber={data.pageNumber} pages={data.pages}/>
         </>
     )
 }
