@@ -3,19 +3,22 @@ import Products from '../components/Products.jsx'
 import { useGetProductsQuery } from '../slices/productsApiSlice.js'
 import Loader from '../components/Loader'
 import Message from '../components/Message.jsx'
+import { useParams } from 'react-router-dom'
 
 const HomeScreen = () => {
+    const { pageNumber } = useParams();
 
-    const { data: products, isLoading, error } = useGetProductsQuery();
+    const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
 
     if (isLoading) return <Loader />
+
     if (error) return <Message variant='danger'>Error occurred while fetching products {error?.data?.message || error.error}</Message>
 
     return (
         <>
             <h1>Latest Products</h1>
             <Row>
-                {products.map((product) => (
+                {data.products.map((product) => (
                     <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                         <Products product={product} />
                     </Col>

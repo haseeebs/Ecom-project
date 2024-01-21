@@ -4,8 +4,12 @@ import wrapAsync from "../utils/wrapAsync.js";
 // Fetch all products
 // Route: GET /api/products
 const getProducts = wrapAsync(async (req, res) => {
-    const products = await Product.find({});
-    res.json(products);
+    const pageSize = 8;
+    const pageNumber = Number(req.query.pageNumber) || 1;
+    const count = await Product.countDocuments();
+
+    const products = await Product.find({}).limit(pageSize).skip(pageSize * (pageNumber - 1));
+    res.json({ products, pageSize, pages: Math.ceil(count / pageSize) });
 });
 
 // Fetch a product by ID
@@ -68,7 +72,7 @@ const updateProduct = wrapAsync(async (req, res) => {
 // Route: DELETE /api/products/:id
 const deleteProduct = wrapAsync(async (req, res) => {
     const { id } = req.params;
-    
+
     const product = await Product.findById(id);
 
     if (!product) {

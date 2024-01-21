@@ -33,6 +33,11 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: '/',
+        element: <HomeScreen />,
+        index: true
+      },
+      {
+        path: '/page/:pageNumber',
         element: <HomeScreen />
       },
       {
