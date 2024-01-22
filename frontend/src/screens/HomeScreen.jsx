@@ -5,6 +5,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message.jsx'
 import { Link, useParams } from 'react-router-dom'
 import Paginate from '../components/Paginate.jsx'
+import ProductCarousel from '../components/ProductCarousel.jsx'
 
 const HomeScreen = () => {
     const { pageNumber, searchedKeyword } = useParams();
@@ -18,12 +19,15 @@ const HomeScreen = () => {
     return (
         <>
             {
-                searchedKeyword
-                    ? <Link to={'/'} className='btn btn-light mb-2'>Go back</Link>
-                    : <h1>Latest Products</h1>
+                !searchedKeyword
+                    ? <ProductCarousel />
+                    : <Link to={'/'} className='btn btn-light mb-2'>Go back</Link>
+
             }
 
             <Row>
+                <h1>Latest Products</h1>
+
                 {data.products.map((product) => (
                     <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                         <Products product={product} />

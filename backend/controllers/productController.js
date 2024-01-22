@@ -6,7 +6,7 @@ import wrapAsync from "../utils/wrapAsync.js";
 const getProducts = wrapAsync(async (req, res) => {
     const pageSize = 8;
     const pageNumber = Number(req.query.pageNumber) || 1;
-    
+
     const searchQuery = req.query.searchedKeyword
         ? { name: { $regex: req.query.searchedKeyword, $options: 'i' } }
         : {};
@@ -16,7 +16,7 @@ const getProducts = wrapAsync(async (req, res) => {
     const products = await Product.find(searchQuery)
         .limit(pageSize)
         .skip(pageSize * (pageNumber - 1));
-        res.json({ products, pageNumber, pages: Math.ceil(count / pageSize) });
+    res.json({ products, pageNumber, pages: Math.ceil(count / pageSize) });
 });
 
 // Fetch a product by ID
@@ -129,4 +129,18 @@ const createProductReview = wrapAsync(async (req, res) => {
     res.status(201).json({ message: 'Review added' })
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
+// Get top rated products
+// Route: GET /api/products/top
+const getTopRatedProducts = wrapAsync(async (req, res) => {
+
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+    
+    if (products.length === 0) {
+        return res.status(404).json({ message: 'No top-rated products found.' });
+    }
+
+    res.status(200).json(products);
+
+});
+
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, getTopRatedProducts };
