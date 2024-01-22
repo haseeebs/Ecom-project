@@ -49,9 +49,8 @@ table th {
 }
 
 .carousel-image {
-  max-height: 300px;
+  height: 350px;
   width: auto;
-  margin-left: 75px;
 }
 
 .carousel-caption {

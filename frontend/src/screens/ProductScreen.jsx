@@ -8,6 +8,7 @@ import { useCreateProductReviewMutation, useGetProductDetailsQuery } from '../sl
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import { toast } from 'react-toastify';
+import Meta from '../components/Meta';
 
 const ProductScreen = () => {
   // Hooks and state initialization
@@ -62,6 +63,7 @@ const ProductScreen = () => {
 
       {product && (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={5}>
               <img src={product.image} alt={product.name} style={{ maxWidth: '100%', height: 'auto' }} />
