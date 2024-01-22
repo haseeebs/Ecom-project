@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../slices/authSlice'
 import { useLogoutMutation } from '../slices/usersApiSlice'
 import { toast } from 'react-toastify'
+import SearchBox from './SearchBox'
 
 const Header = () => {
 
@@ -41,7 +42,11 @@ const Header = () => {
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
+
                         <Nav className="ms-auto">
+
+                            <SearchBox />
+
                             <LinkContainer to='/cart'>
                                 <Nav.Link><FaShoppingCart /> Cart
                                     {cartItems.length > 0 && <Badge pill bg='success' style={{ marginLeft: '5px' }}>{cartItems.reduce((acc, value) => acc + value.quantity, 0)}</Badge>}

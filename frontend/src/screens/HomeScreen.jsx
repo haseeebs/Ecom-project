@@ -3,7 +3,7 @@ import Products from '../components/Products.jsx'
 import { useGetProductsQuery } from '../slices/productsApiSlice.js'
 import Loader from '../components/Loader'
 import Message from '../components/Message.jsx'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Paginate from '../components/Paginate.jsx'
 
 const HomeScreen = () => {
@@ -17,7 +17,12 @@ const HomeScreen = () => {
 
     return (
         <>
-            <h1>Latest Products</h1>
+            {
+                searchedKeyword
+                    ? <Link to={'/'} className='btn btn-light mb-2'>Go back</Link>
+                    : <h1>Latest Products</h1>
+            }
+
             <Row>
                 {data.products.map((product) => (
                     <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
