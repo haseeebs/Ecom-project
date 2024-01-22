@@ -7,6 +7,7 @@ import Logo from "../assets/logo.png"
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../slices/authSlice'
 import { useLogoutMutation } from '../slices/usersApiSlice'
+import { resetCart } from '../slices/cartSlice'
 import { toast } from 'react-toastify'
 import SearchBox from './SearchBox'
 
@@ -24,6 +25,7 @@ const Header = () => {
         try {
             await logoutApiCall().unwrap();
             dispatch(logout());
+            dispatch(resetCart());
             navigate('/login');
         } catch (error) {
             toast.error(error?.data?.message || error.error)
