@@ -41,6 +41,14 @@ const appRouter = createBrowserRouter([
         element: <HomeScreen />
       },
       {
+        path: '/search/:searchedKeyword',
+        element: <HomeScreen />
+      },
+      {
+        path: '/search/:searchedKeyword/page/:pageNumber',
+        element: <HomeScreen />
+      },
+      {
         path: '/product/:id',
         element: <ProductScreen />
       },

@@ -6,10 +6,17 @@ import wrapAsync from "../utils/wrapAsync.js";
 const getProducts = wrapAsync(async (req, res) => {
     const pageSize = 8;
     const pageNumber = Number(req.query.pageNumber) || 1;
-    const count = await Product.countDocuments();
+    
+    const searchQuery = req.query.searchedKeyword
+        ? { name: { $regex: req.query.searchedKeyword, $options: 'i' } }
+        : {};
 
-    const products = await Product.find({}).limit(pageSize).skip(pageSize * (pageNumber - 1));
-    res.json({ products, pageNumber, pages: Math.ceil(count / pageSize) });
+    const count = await Product.countDocuments(searchQuery);
+
+    const products = await Product.find(searchQuery)
+        .limit(pageSize)
+        .skip(pageSize * (pageNumber - 1));
+        res.json({ products, pageNumber, pages: Math.ceil(count / pageSize) });
 });
 
 // Fetch a product by ID
