@@ -39,7 +39,7 @@ const Header = () => {
                     <LinkContainer to='/'>
                         <Navbar.Brand href='/'>
                             <img src={Logo} alt="EcomShop" />
-                            Ecom Store
+                            Insta cart
                         </Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
