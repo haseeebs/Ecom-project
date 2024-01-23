@@ -4,7 +4,7 @@ import wrapAsync from "../utils/wrapAsync.js";
 // Fetch all products
 // Route: GET /api/products
 const getProducts = wrapAsync(async (req, res) => {
-    const pageSize = 8;
+    const pageSize = process.env.PAGINATION_LIMIT;
     const pageNumber = Number(req.query.pageNumber) || 1;
 
     const searchQuery = req.query.searchedKeyword

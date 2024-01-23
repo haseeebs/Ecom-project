@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "importData": "node backend/seeder",
     "destroyData": "node backend/seeder -d",
-    "build": "npm install && npm install --prefix frontend && npm run build --frontend"
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Haseeb",
   "license": "ISC",
