@@ -1,38 +1,51 @@
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js';
+import { calculatePrices } from '../utils/calculatePrices.js';
 import wrapAsync from '../utils/wrapAsync.js';
 
 // Create new order
 // Route: POST /api/orders
 // Access Private
 export const createOrder = wrapAsync(async (req, res) => {
-    const {
-        orderItems,
-        itemsPrice,
-        paymentMethod,
-        shippingAddress,
-        shippingPrice,
-        taxPrice,
-        totalPrice
-    } = req.body;
+
+    const { orderItems, paymentMethod, shippingAddress } = req.body;
 
     if (orderItems && orderItems.length === 0) {
         res.status(400)
         throw new Error("No order items")
     } else {
-        const newOrder = new Order({
-            user: req.user._id,
-            orderItems: orderItems.map(orderItem => ({ ...orderItem, product: orderItem._id, _id: undefined })),
-            itemsPrice,
-            paymentMethod,
-            shippingAddress,
-            shippingPrice,
-            taxPrice,
-            totalPrice
+        const itemsFromDb = await Product.find({
+            _id: { $in: orderItems.map(item => item._id) }
         })
-
-        const createdOrder = await newOrder.save();
-        res.status(201).json({ order: createdOrder, message: 'Order created successfully' });
     }
+
+    const dbOrderItems = orderItems.map(itemFromClient => {
+        const matchingItemFromDb = itemsFromDb.find(itemFromDb => itemFromDb._id === itemFromClient);
+
+        return {
+            ...itemFromClient,
+            product: itemFromClient._id,
+            price: matchingItemFromDb.price,
+            _id: undefined
+        };
+    });
+
+    const { itemsPrice, shippingPrice, taxPrice, totalPrice } = calculatePrices(dbOrderItems);
+
+    const order = new Order({
+        user: req.user._id,
+        orderItems: dbOrderItems,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        shippingPrice,
+        taxPrice,
+        totalPrice
+    });
+
+    const createdOrder = await order.save();
+
+    res.status(200).json(createdOrder);
 })
 
 // Get logged in user orders
