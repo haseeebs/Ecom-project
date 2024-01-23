@@ -10,7 +10,8 @@
     "server": "nodemon backend/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "importData": "node backend/seeder",
-    "destroyData": "node backend/seeder -d"
+    "destroyData": "node backend/seeder -d",
+    "build": "npm install && npm install --prefix frontend && npm run build --frontend"
   },
   "author": "Haseeb",
   "license": "ISC",
